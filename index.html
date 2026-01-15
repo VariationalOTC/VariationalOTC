@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VORTEX OTC - Secure Variational Points Trading</title>
+    <meta name="description" content="Secure OTC trading for Variational Points with multisig escrow protection">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            padding: 2rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            color: #e0e0e0;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #667eea;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #b0b0b0;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 3rem 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .section {
+            padding: 3rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #667eea;
+        }
+
+        .fee-table {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+        }
+
+        th {
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        tr:not(:last-child) {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .step {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .step-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .wallets {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 2rem 0;
+        }
+
+        .wallet-address {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+            margin: 1rem 0;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .disclaimer {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 5px;
+        }
+
+        .disclaimer h3 {
+            color: #ffc107;
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #888;
+        }
+
+        .validators {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .validator {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #667eea;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            color: #e0e0e0;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">VORTEX OTC 🔒</div>
+                <div class="social-links">
+                    <a href="https://twitter.com/VortexOTC" target="_blank">Twitter</a>
+                    <a href="https://t.me/VortexOTC" target="_blank">Telegram</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Secure OTC Trading for Variational Points</h1>
+                <p>Trade with confidence using multisig escrow protection</p>
+                <a href="#contact" class="cta-button">Start Trading</a>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>3-of-5 Multisig Security</h3>
+                    <p>Your funds are protected by five independent validators. Three signatures required for any transaction.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💎</div>
+                    <h3>Tiered Fee Structure</h3>
+                    <p>Lower fees for larger trades. From 2% down to 1% per side based on volume.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Fast Settlement</h3>
+                    <p>Quick resolution post-TGE with clear timelines and default protection.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>Fee Structure</h2>
+                <div class="fee-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Trade Size</th>
+                                <th>Buyer Fee</th>
+                                <th>Seller Fee</th>
+                                <th>Total Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>&lt; $5,000</td>
+                                <td>2%</td>
+                                <td>2%</td>
+                                <td>4% combined</td>
+                            </tr>
+                            <tr>
+                                <td>$5,000 - $25,000</td>
+                                <td>1.5%</td>
+                                <td>1.5%</td>
+                                <td>3% combined</td>
+                            </tr>
+                            <tr>
+                                <td>$25,000+</td>
+                                <td>1%</td>
+                                <td>1%</td>
+                                <td>2% combined</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p style="text-align: center; margin-top: 1rem; color: #b0b0b0;">
+                    Example: A $10,000 trade costs each party $150 (1.5%)
+                </p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>How It Works</h2>
+                <div class="process-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Submit Order</h3>
+                        <p>Contact us with your trade details via Discord or Telegram</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Get Matched</h3>
+                        <p>We match you with a counterparty and both parties confirm terms</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Deposit Collateral</h3>
+                        <p>Both parties deposit 100% in USDC/USDT to multisig escrow</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h3>Settlement</h3>
+                        <p>Post-TGE, points are transferred and funds released securely</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>Validators</h2>
+                <p style="text-align: center; margin-bottom: 2rem; color: #b0b0b0;">
+                    Five trusted community members secure your trades
+                </p>
+                <div class="validators">
+                    <div class="validator">
+                        <h4>Validator 1</h4>
+                        <p style="color: #888;">Coming Soon</p>
+                    </div>
+                    <div class="validator">
+                        <h4>Validator 2</h4>
+                        <p style="color: #888;">Coming Soon</p>
+                    </div>
+                    <div class="validator">
+                        <h4>Validator 3</h4>
+                        <p style="color: #888;">Coming Soon</p>
+                    </div>
+                    <div class="validator">
+                        <h4>Validator 4</h4>
+                        <p style="color: #888;">Coming Soon</p>
+                    </div>
+                    <div class="validator">
+                        <h4>Validator 5</h4>
+                        <p style="color: #888;">Coming Soon</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>Wallet Addresses</h2>
+                <div class="wallets">
+                    <h3 style="color: #667eea; margin-bottom: 1rem;">🔐 Main Escrow Multisig</h3>
+                    <div class="wallet-address">
+                        To be deployed - Gnosis Safe 3-of-5 Multisig
+                    </div>
+                    
+                    <h3 style="color: #667eea; margin: 2rem 0 1rem;">💰 Fee Collection Wallet</h3>
+                    <div class="wallet-address">
+                        Coming Soon
+                    </div>
+                    
+                    <p style="color: #b0b0b0; margin-top: 1rem;">
+                        All addresses will be verified on-chain. Always verify before sending funds.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="contact">
+            <div class="container">
+                <h2>Place an Order</h2>
+                <div class="contact-form">
+                    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                        <div class="form-group">
+                            <label for="direction">Direction *</label>
+                            <select id="direction" name="direction" required>
+                                <option value="">Select...</option>
+                                <option value="buy">BUY</option>
+                                <option value="sell">SELL</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="quantity">Quantity of Points *</label>
+                            <input type="number" id="quantity" name="quantity" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="price">Price Per Point (USD) *</label>
+                            <input type="number" step="0.01" id="price" name="price" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="wallet">Your Wallet Address *</label>
+                            <input type="text" id="wallet" name="wallet" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contact">Telegram/Discord Handle *</label>
+                            <input type="text" id="contact" name="contact" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="notes">Additional Notes</label>
+                            <textarea id="notes" name="notes"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="cta-button" style="width: 100%; cursor: pointer; border: none;">
+                            Submit Order
+                        </button>
+                    </form>
+                    
+                    <p style="text-align: center; margin-top: 1.5rem; color: #888;">
+                        Or contact us directly:<br>
+                        <strong>Telegram:</strong> @YourHandle<br>
+                        <strong>Discord:</strong> YourHandle#0000
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>Important Disclaimers</h2>
+                
+                <div class="disclaimer">
+                    <h3>⚠️ Impersonation Warning</h3>
+                    <p>VORTEX OTC will NEVER DM you first or ask for private keys. Only trust verified official channels. We are NOT responsible for losses from engaging with impersonators.</p>
+                </div>
+                
+                <div class="disclaimer">
+                    <h3>⚠️ Trading Risks</h3>
+                    <p>Trading involves risk of total loss. No guarantee projects will reach TGE. Point values are speculative. We provide NO investment advice.</p>
+                </div>
+                
+                <div class="disclaimer">
+                    <h3>⚠️ Technical Responsibility</h3>
+                    <p>We are NOT responsible for funds sent to wrong addresses, incorrect networks, or lost private keys. Verify all details before transactions.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 VORTEX OTC. All rights reserved.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+                Built for the Variational community | Powered by Gnosis Safe
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
